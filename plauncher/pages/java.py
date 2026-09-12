@@ -172,7 +172,7 @@ class JavaPage(ctk.CTkFrame):
         self.jvm_entry = ctk.CTkEntry(
             self.jvm_frame,
             font=self.FONT_MONO,
-            placeholder_text="-XX:+UseG1GC -XX:+ParallelRefProcEnabled",
+            placeholder_text="-XX:+UseG1GC; -XX:+ParallelRefProcEnabled",
             height=42,
         )
         self.jvm_entry.place(

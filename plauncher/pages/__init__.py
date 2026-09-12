@@ -5,6 +5,10 @@ from .java import JavaPage
 from .versions import VersionsPage
 import customtkinter as ctk
 from PIL import Image
+import os
+
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+ICONS_DIR = os.path.join(CURRENT_DIR, 'icons')
 
 class VerticalPagePanel(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
@@ -35,13 +39,12 @@ class VerticalPagePanel(ctk.CTkFrame):
         )
         self.indicator.place(x=0, y=0)
         self.indicator.lower()
-
-        icons_dir = "plauncher/icons/"
+        
         pages_dict = {"home": HomePage(self.content_frame), "accounts": AccountsPage(self.content_frame),
                       "instances": InstancesPage(self.content_frame), "java": JavaPage(self.content_frame),
                       "versions": VersionsPage(self.content_frame)}
         for page in ["home", "accounts", "instances", "versions", "java", "logs", "settings"]:
-            self._add_page(f"{icons_dir}{page}.png", pages_dict.get(page))
+            self._add_page(os.path.join(ICONS_DIR, f"{page}.png"), pages_dict.get(page))
 
         self.after(100, lambda: self.select_page(0))
 

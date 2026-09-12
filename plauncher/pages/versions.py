@@ -61,40 +61,6 @@ class VersionsPage(ctk.CTkFrame):
         self.FONT_BODY = ctk.CTkFont(self.FONT_UI, 14)
 
         self.loader_versions = {
-            "OptiFine": [
-                "1.21.8",
-                "1.21.7",
-                "1.20.1",
-            ],
-            "Forge": [
-                "1.21.8",
-                "1.21.7",
-                "1.20.1",
-            ],
-            "Fabric": [
-                "1.21.8",
-                "1.21.7",
-                "1.21.6",
-                "1.21.5",
-                "1.20.1",
-            ],
-            "Quilt": [
-                "1.21.8",
-                "1.21.7",
-                "1.21.6",
-                "1.20.1",
-            ],
-            "Cleanroom": [
-                "1.21.8",
-                "1.21.7",
-                "1.21.6",
-            ],
-            "NeoForge": [
-                "1.21.8",
-                "1.21.7",
-                "1.21.6",
-                "1.20.1",
-            ],
             "Vanilla": [
                 "1.21.8",
                 "1.21.7",
@@ -175,12 +141,12 @@ class VersionsPage(ctk.CTkFrame):
 
         self.minecraft_combo = ctk.CTkComboBox(
             self.add_frame,
-            values=self.loader_versions["Cleanroom"],
+            values=self.loader_versions["Vanilla"],
             font=self.FONT_BODY,
             height=38,
         )
         self.minecraft_combo.set(
-            self.loader_versions["Cleanroom"][0],
+            self.loader_versions["Vanilla"][0],
         )
         self.minecraft_combo.place(
             relx=0.05,
@@ -195,7 +161,7 @@ class VersionsPage(ctk.CTkFrame):
             height=38,
             command=self.loader_changed,
         )
-        self.loader_combo.set("Cleanroom")
+
         self.loader_combo.place(
             relx=0.41,
             rely=0.35,

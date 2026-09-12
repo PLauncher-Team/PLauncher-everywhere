@@ -119,7 +119,6 @@ class AccountFrame(ctk.CTkFrame):
             self.type_box = ctk.CTkComboBox(
                 self,
                 values=[
-                    "license",
                     "ely.by",
                     "offline",
                 ],
@@ -255,11 +254,6 @@ class AccountsPage(ctk.CTkFrame):
                 "uuid": "550e8400-e29b-41d4-a716-446655440002",
                 "name": "Player123",
                 "type": "offline",
-            },
-            {
-                "uuid": "550e8400-e29b-41d4-a716-4466440003",
-                "name": "Minecraft Account",
-                "type": "license",
             },
         ]
 
