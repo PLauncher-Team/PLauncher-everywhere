@@ -1,10 +1,10 @@
 import customtkinter as ctk
 
-
 class JavaPage(ctk.CTkFrame):
-    def __init__(self, master, **kwargs):
+    def __init__(self, master, app, **kwargs):
         super().__init__(master, **kwargs)
-
+        
+        self.java_manager = app.java_manager
         self.FONT_UI = "Inter 18pt"
 
         self.FONT_TITLE = ctk.CTkFont(self.FONT_UI, 24, "bold")
@@ -22,10 +22,8 @@ class JavaPage(ctk.CTkFrame):
             "Java 25",
         ]
 
-        self.recommended_java = "Java 21"
-
         self.memory_min = 512
-        self.memory_max = 16384
+        self.memory_max = self.java_manager.memory_max_mb
         self.memory_step = 512
         self.memory_value = 4096
 
@@ -109,7 +107,6 @@ class JavaPage(ctk.CTkFrame):
             font=self.FONT_BODY,
             height=38,
         )
-        self.java_combo.set(self.recommended_java)
         self.java_combo.place(
             relx=0.22,
             rely=0.48,
@@ -250,8 +247,8 @@ class JavaPage(ctk.CTkFrame):
         self.memory_slider.set(self.memory_value)
         self.memory_slider.place(
             relx=0,
-            rely=0.60,
-            relwidth=0.90,
+            rely=0.325,
+            relwidth=0.65,
         )
 
         self.memory_min_label = ctk.CTkLabel(
@@ -263,20 +260,20 @@ class JavaPage(ctk.CTkFrame):
         )
         self.memory_min_label.place(
             relx=0,
-            rely=0.84,
+            rely=0.55,
             relwidth=0.25,
         )
 
         self.memory_max_label = ctk.CTkLabel(
             self.memory_frame,
-            text="16384 MB",
+            text=f"{self.memory_max} MB",
             font=self.FONT_SMALL,
             anchor="e",
             height=18,
         )
         self.memory_max_label.place(
-            relx=0.65,
-            rely=0.84,
+            relx=0.4,
+            rely=0.55,
             relwidth=0.25,
         )
 

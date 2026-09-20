@@ -40,11 +40,12 @@ class VerticalPagePanel(ctk.CTkFrame):
         self.indicator.place(x=0, y=0)
         self.indicator.lower()
         
-        pages_dict = {"home": HomePage(self.content_frame), "accounts": AccountsPage(self.content_frame),
-                      "instances": InstancesPage(self.content_frame), "java": JavaPage(self.content_frame),
-                      "versions": VersionsPage(self.content_frame)}
-        for page in ["home", "accounts", "instances", "versions", "java", "logs", "settings"]:
-            self._add_page(os.path.join(ICONS_DIR, f"{page}.png"), pages_dict.get(page))
+        self.pages_dict = {}
+        for page, class_object in {"home": HomePage, "accounts": AccountsPage,
+                      "instances": InstancesPage, "java": JavaPage,
+                      "versions": VersionsPage}.items():
+            self.pages_dict[page] = class_object(self.content_frame, master)
+            self._add_page(os.path.join(ICONS_DIR, f"{page}.png"), self.pages_dict.get(page))
 
         self.after(100, lambda: self.select_page(0))
 

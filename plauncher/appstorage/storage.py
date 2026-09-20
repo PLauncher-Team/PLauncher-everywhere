@@ -26,3 +26,4 @@ class StorageManager:
             os.makedirs(os.path.join(self.minecraft_dir, folder), exist_ok=True)
         
         ensure_vanilla_launcher_profiles_exists(self.minecraft_dir)
+

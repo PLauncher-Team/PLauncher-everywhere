@@ -18,7 +18,7 @@ class VersionsManager:
 
     def _update_display(self):
         if self.master.winfo_viewable() and self.versions_by_loader:
-            versions_page = self.master.menu_frame.pages[3]
+            versions_page = self.master.menu_frame.pages_dict["versions"]
             ready_loaders = self.versions_by_loader.keys() & self.pending_loaders
             self.pending_loaders -= ready_loaders
             for loader in ready_loaders:

@@ -53,7 +53,7 @@ class VersionFrame(ctk.CTkFrame):
 
 
 class VersionsPage(ctk.CTkFrame):
-    def __init__(self, master, **kwargs):
+    def __init__(self, master, app, **kwargs):
         super().__init__(master, **kwargs)
 
         self.FONT_UI = "Inter 18pt"

@@ -1,6 +1,5 @@
 import customtkinter as ctk
 
-
 class AccountFrame(ctk.CTkFrame):
     def __init__(
             self,
@@ -89,7 +88,6 @@ class AccountFrame(ctk.CTkFrame):
     def update_account(self, account, index):
         self.account = account
         self.index = index
-
         self.name_label.configure(
             text=account["name"],
         )
@@ -215,9 +213,11 @@ class AccountFrame(ctk.CTkFrame):
 
 
 class AccountsPage(ctk.CTkFrame):
-    def __init__(self, master, **kwargs):
+    def __init__(self, master, app, **kwargs):
         super().__init__(master, **kwargs)
-
+        
+        self.app = app
+        self.settings = app.settings_manager.settings.accounts
         self.FONT_UI = "Inter 18pt"
 
         self.FONT_TITLE = ctk.CTkFont(
@@ -244,18 +244,7 @@ class AccountsPage(ctk.CTkFrame):
             "bold",
         )
 
-        self.accounts = [
-            {
-                "uuid": "550e8400-e29b-41d4-a716-446655440001",
-                "name": "Sasha",
-                "type": "ely.by",
-            },
-            {
-                "uuid": "550e8400-e29b-41d4-a716-446655440002",
-                "name": "Player123",
-                "type": "offline",
-            },
-        ]
+        self.accounts = self.settings.accounts_list
 
         self.account_widgets = []
         self.selected_index = 0
@@ -513,7 +502,7 @@ class AccountsPage(ctk.CTkFrame):
 
         account = {
             "uuid": "00000000-0000-0000-0000-000000000000",
-            "name": "Новый аккаунт",
+            "name": "Steve",
             "type": "offline",
         }
 
@@ -542,10 +531,13 @@ class AccountsPage(ctk.CTkFrame):
             name = "Новый аккаунт"
 
         account = {
-            "uuid": account_widget.account["uuid"],
+            "uuid": self.app.accounts_manager.get_offline_uuid(name),
             "name": name,
             "type": account_type,
         }
+        
+        if account in self.accounts:
+            return 
 
         if account_widget.is_new:
             self.accounts.append(account)
@@ -571,7 +563,9 @@ class AccountsPage(ctk.CTkFrame):
             account_widget.restore_static_widgets()
 
             self.select_account(index)
-
+        
+        self.save_accounts()
+        
     def delete_account(self, index):
         if not 0 <= index < len(self.account_widgets):
             return
@@ -621,3 +615,12 @@ class AccountsPage(ctk.CTkFrame):
                 )
 
         self.refresh_accounts()
+        self.save_accounts()
+    
+    def save_accounts(self):
+        home_page = self.app.menu_frame.pages_dict["home"]
+        self.app.settings_manager.save()
+        usernames = self.app.accounts_manager.get_usernames()
+        home_page.username_combobox.configure(values=usernames)
+        home_page.username_combobox.set(usernames[0] if usernames else "")
+        

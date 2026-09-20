@@ -349,7 +349,7 @@ class InstanceFrame(ctk.CTkFrame):
 
 
 class InstancesPage(ctk.CTkFrame):
-    def __init__(self, master, minecraft_dir=None, **kwargs):
+    def __init__(self, master, app, **kwargs):
         super().__init__(master, **kwargs)
 
         self.FONT_UI = "Inter 18pt"
@@ -373,11 +373,7 @@ class InstancesPage(ctk.CTkFrame):
             "bold",
         )
 
-        self.minecraft_dir = (
-            minecraft_dir
-            if minecraft_dir is not None
-            else os.path.expanduser("~/.minecraft")
-        )
+        self.minecraft_dir = ""
 
         self.instances_dir = os.path.join(
             self.minecraft_dir,

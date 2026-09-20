@@ -2,9 +2,10 @@ import customtkinter as ctk
 
 
 class HomePage(ctk.CTkFrame):
-    def __init__(self, master, **kwargs):
+    def __init__(self, master, app, **kwargs):
         super().__init__(master, **kwargs)
-
+        
+        accounts_manager = app.accounts_manager
         FONT_UI = "Inter 18pt"
         FONT_MONO = "JetBrains Mono"
 
@@ -17,7 +18,7 @@ class HomePage(ctk.CTkFrame):
 
         title = ctk.CTkLabel(
             header,
-            text="Добро пожаловать, Sasha",
+            text="Добро пожаловать",
             font=ctk.CTkFont(FONT_UI, 26, "bold"),
             anchor="w",
             height=32,
@@ -49,19 +50,20 @@ class HomePage(ctk.CTkFrame):
             height=20,
         )
         username_label.place(relx=0.045, rely=0.10, relwidth=0.42)
-
-        username_combobox = ctk.CTkComboBox(
+        
+        usernames = accounts_manager.get_usernames()
+        self.username_combobox = ctk.CTkComboBox(
             launch_card,
-            values=["Valex", "Sasha", "Player123"],
+            values=usernames,
             font=font_body,
             height=38,
         )
-        username_combobox.place(
+        self.username_combobox.place(
             relx=0.045,
             rely=0.19,
             relwidth=0.42,
         )
-        username_combobox.set("Valex")
+        self.username_combobox.set(usernames[0] if usernames else "")
 
         instance_label = ctk.CTkLabel(
             launch_card,
