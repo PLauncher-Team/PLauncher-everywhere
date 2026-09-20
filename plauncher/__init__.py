@@ -4,8 +4,11 @@ from .pages import VerticalPagePanel
 from .fonts import load_fonts
 from .storage import StorageManager
 from .versions import VersionsManager
+from .ctk_fixes import patch_progressbar_zero
 
+patch_progressbar_zero()
 load_fonts()
+
 
 class PLauncher(ctk.CTk):
     def __init__(self,

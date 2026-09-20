@@ -2,25 +2,36 @@ import minecraft_launcher_lib as mll
 from concurrent.futures import ThreadPoolExecutor
 import customtkinter as ctk
 
+
 class VersionsManager:
     def __init__(self, master: ctk.CTk):
-        self.versions = {}
+        self.versions_by_loader = {}
         self.master = master
         
-        loaders = list(mll.mod_loader.list_mod_loader())
+        all_loaders = set(mll.mod_loader.list_mod_loader())
+        self.pending_loaders = all_loaders.copy()
+        self.executor = ThreadPoolExecutor(max_workers=len(all_loaders))
+        for loader in all_loaders:
+            self.executor.submit(self._load_versions_for_loader, loader)
 
-        self._executor = ThreadPoolExecutor(max_workers=len(loaders))
-        for loader in loaders:
-            self._executor.submit(self._load_versions, loader)
-        
-        self.master.after(0, self._display_version)
-    
-    def _display_version(self, event=None):
-        if self.master.winfo_viewable():
-            self.master.menu_frame.pages[2]
-        else:
-            self.master.after(100, self._display_version)
+        self.master.after(0, self._update_display)
 
-    def _load_versions(self, loader: str):
+    def _update_display(self):
+        if self.master.winfo_viewable() and self.versions_by_loader:
+            versions_page = self.master.menu_frame.pages[3]
+            ready_loaders = self.versions_by_loader.keys() & self.pending_loaders
+            self.pending_loaders -= ready_loaders
+            for loader in ready_loaders:
+                versions_page.loader_versions[loader] = self.versions_by_loader[loader]
+            
+            if ready_loaders:
+                versions_page.update_loaders_list(self.versions_by_loader)
+
+        if not self.pending_loaders:
+            return
+
+        self.master.after(100, self._update_display)
+
+    def _load_versions_for_loader(self, loader: str):
         mod_loader = mll.mod_loader.get_mod_loader(loader)
-        self.versions[loader] = mod_loader.get_minecraft_versions(False)
+        self.versions_by_loader[loader] = mod_loader.get_minecraft_versions(False)

@@ -61,31 +61,9 @@ class VersionsPage(ctk.CTkFrame):
         self.FONT_BODY = ctk.CTkFont(self.FONT_UI, 14)
 
         self.loader_versions = {
-            "Vanilla": [
-                "1.21.8",
-                "1.21.7",
-                "1.21.6",
-                "1.20.1",
-            ],
         }
 
         self.versions = [
-            {
-                "minecraft": "1.21.8",
-                "loader": "Fabric",
-            },
-            {
-                "minecraft": "1.21.8",
-                "loader": "NeoForge",
-            },
-            {
-                "minecraft": "1.20.1",
-                "loader": "Forge",
-            },
-            {
-                "minecraft": "1.21.7",
-                "loader": "",
-            },
         ]
 
         self.version_widgets = []
@@ -141,13 +119,10 @@ class VersionsPage(ctk.CTkFrame):
 
         self.minecraft_combo = ctk.CTkComboBox(
             self.add_frame,
-            values=self.loader_versions["Vanilla"],
             font=self.FONT_BODY,
             height=38,
         )
-        self.minecraft_combo.set(
-            self.loader_versions["Vanilla"][0],
-        )
+        self.minecraft_combo.set("")
         self.minecraft_combo.place(
             relx=0.05,
             rely=0.35,
@@ -161,7 +136,7 @@ class VersionsPage(ctk.CTkFrame):
             height=38,
             command=self.loader_changed,
         )
-
+        self.minecraft_combo.set("")
         self.loader_combo.place(
             relx=0.41,
             rely=0.35,
@@ -286,4 +261,10 @@ class VersionsPage(ctk.CTkFrame):
 
         del self.versions[index]
         self.refresh_versions()
-        
+    
+    def update_loaders_list(self, loaders):
+        self.loader_versions = loaders
+        self.loader_combo.configure(values=loaders.keys())
+        first_loader = list(loaders)[0]
+        self.loader_combo.set(first_loader)
+        self.loader_changed(first_loader)
