@@ -8,5 +8,5 @@ dependencies = [
     "filelock",
     "minecraft-launcher-lib",
     "pillow",
-    "psutil",
+    "psutil; sys_platform != 'android'",
 ]

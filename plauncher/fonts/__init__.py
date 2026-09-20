@@ -2,7 +2,7 @@ import customtkinter as ctk
 import os
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-FONTS_DIR = os.path.join(CURRENT_DIR, 'fonts')
+FONTS_DIR = CURRENT_DIR
 
 def load_fonts():
     for font in [
